@@ -41,5 +41,18 @@ namespace curve
             return (p1-p0).normalized;
         }
 
+        public List<Vector3> GetPoints(int divisions)
+        {
+            List<Vector3> points = new List<Vector3>();
+            points.Add(p0);
+            points.Add(p1);
+            return points;
+        }
+
+        public void GetPoints(int divisions, List<Vector3> points)
+        {
+            points.Add(p0);
+            points.Add(p1);
+        }
     }
 }

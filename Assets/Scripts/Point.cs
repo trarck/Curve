@@ -19,6 +19,20 @@ namespace curve
         public Vector3 controlOne;
         public Vector3 controlTwo;
 
+        
+        public Point(JoinType joinType,Vector3 position)
+        {
+            m_JoinType = joinType;
+            this.position = position;
+        }
+
+        public Point(JoinType joinType, Vector3 position,Vector3 controlOne,Vector3 controlTwo)
+        {
+            m_JoinType = joinType;
+            this.position = position;
+            this.controlOne = controlOne;
+            this.controlTwo = controlTwo;
+        }
 
         public JoinType joinType
         {

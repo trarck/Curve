@@ -73,6 +73,16 @@ namespace curve
             return null;
         }
 
+        public List<Vector3> GetPoints(int divisions)
+        {
+            List<Vector3> positions = new List<Vector3>();
+            for (int i = 0, l = m_Curves.Count; i < l; ++i)
+            {
+                m_Curves[i].GetPoints(divisions,positions);
+            }
+            return positions;
+        }
+
         public Vector3 GetPointAt(float distance)
         {
             float t = 0;

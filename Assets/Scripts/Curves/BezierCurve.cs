@@ -83,6 +83,26 @@ namespace curve
             return 2 * tr * (p1 - p0) + 2 * t * (p2 - p1);
         }
 
+        public List<Vector3> GetPoints(int divisions)
+        {
+            //TODO divisions*=2
+            List<Vector3> points = new List<Vector3>();
+
+            for(int i = 0; i <= divisions; ++i)
+            {
+                points.Add(GetPointAt((float)i / divisions));
+            }
+
+            return points;
+        }
+
+        public void GetPoints(int divisions, List<Vector3> points)
+        {
+            for (int i = 0; i <= divisions; ++i)
+            {
+                points.Add(GetPointAt((float)i / divisions));
+            }
+        }
     }
 
     public class CubicBezierCurve : ICurve
@@ -190,6 +210,27 @@ namespace curve
             var tr = 1 - t;
 
             return 3 * (tr * tr) * (p1 - p0) + 6 * tr * t * (p2 - p1) + 3 * (t * t) * (p3 - p2);
+        }
+
+        public List<Vector3> GetPoints(int divisions)
+        {
+            //TODO divisions*=3
+            List<Vector3> points = new List<Vector3>();
+
+            for (int i = 0; i <= divisions; ++i)
+            {
+                points.Add(GetPointAt((float)i / divisions));
+            }
+
+            return points;
+        }
+
+        public void GetPoints(int divisions, List<Vector3> points)
+        {
+            for (int i = 0; i <= divisions; ++i)
+            {
+                points.Add(GetPointAt((float)i / divisions));
+            }
         }
     }
 }

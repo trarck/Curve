@@ -13,7 +13,7 @@ namespace curve
         Path m_Path = null;
 
         [SerializeField]
-        int m_segmentCount = 10;
+        int m_SegmentCountPerCurve = 10;
 
         void Awake()
         {
@@ -21,6 +21,10 @@ namespace curve
             {
                 m_Path = GetComponent<Path>();
             }
+
+            m_Path.AddPoint(new Point(Point.JoinType.Line, new Vector3(0, 0, 0)));
+            m_Path.AddPoint(new Point(Point.JoinType.Line, new Vector3(5,0, 5)));
+            m_Path.UpdateCurves();
         }
 
         // Start is called before the first frame update
@@ -38,9 +42,21 @@ namespace curve
 
         public void UpdatePositions()
         {
-            Vector3[] positions = CreatePositions().ToArray();
-            m_lineRenderer.positionCount = pp.Length;
-            m_lineRenderer.SetPositions(CreatePositions().ToArray());
+            List<Vector3> positions = m_Path.GetPoints(m_SegmentCountPerCurve);
+            TransformPositions(positions);
+            lineRenderer.positionCount = positions.Count;
+            lineRenderer.SetPositions(positions.ToArray());
+        }
+
+
+        void TransformPositions(List<Vector3> positions)
+        {
+
+            Matrix4x4 matrix = transform.localToWorldMatrix;
+            for(int i = 0; i < positions.Count; ++i)
+            {
+                positions[i] = matrix.MultiplyPoint(positions[i]);
+            }
         }
 
         public void CheckLineRenderer()
@@ -50,20 +66,6 @@ namespace curve
             {
                 m_lineRenderer = gameObject.AddComponent<LineRenderer>();
             }
-        }
-
-        List<Vector3> CreatePositions()
-        {
-            List<Vector3> positions = new List<Vector3>();
-
-            float d = 1.0f / m_segmentCount;
-            Matrix4x4 matrix = transform.localToWorldMatrix;
-            for(int i = 0; i < m_segmentCount; ++i)
-            {
-                positions.Add(matrix.MultiplyPoint(m_Curve.GetPointAt(d * i)));
-            }
-
-            return positions;
         }
 
         public LineRenderer lineRenderer
